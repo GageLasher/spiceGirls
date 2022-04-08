@@ -17,3 +17,25 @@ CREATE TABLE IF NOT EXISTS recipes(
   FOREIGN KEY (creatorId) REFERENCES accounts(id),
   picture varchar(255)
 ) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS ingredients(
+  id INT NOT NULL primary key AUTO_INCREMENT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  name varchar(255),
+  quantity varchar(255),
+  recipeId INT NOT NULL,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id)
+) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS steps(
+  id INT NOT NULL primary key AUTO_INCREMENT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  stepOrder INT,
+  body varchar(255),
+  recipeId INT NOT NULL,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id)
+) default charset utf8 COMMENT '';
+INSERT INTO
+  steps (`stepOrder`, body, `recipeId`)
+VALUES
+  (3, "put in over and done", 4);
