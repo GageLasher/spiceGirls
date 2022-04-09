@@ -13,11 +13,14 @@ namespace spiceGirls.Controllers
     public class RecipesController : ControllerBase
     {
         private readonly RecipesService _rs;
+        private readonly IngredientsService _is;
 
-        public RecipesController(RecipesService rs)
+        public RecipesController(RecipesService rs, IngredientsService @is)
         {
             _rs = rs;
+            _is = @is;
         }
+
         [HttpGet]
         public ActionResult<List<Recipe>> GetAll()
         {
@@ -32,6 +35,21 @@ namespace spiceGirls.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("{id}/ingredients")]
+        public ActionResult<List<Ingredient>> GetAllIngredients(int id)
+        {
+            try
+            {
+                List<Ingredient> ingredients = _is.GetAll(id);
+                return Ok(ingredients);
+            }
+            catch (System.Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPost]
         [Authorize]
         public async Task<ActionResult<Recipe>> Create([FromBody] Recipe recipeData)
