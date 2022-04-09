@@ -1,4 +1,6 @@
+using System;
 using System.Data;
+using System.Linq;
 using Dapper;
 using spiceGirls.Models;
 
@@ -25,6 +27,32 @@ namespace spiceGirls.Repositories
             int id = _db.ExecuteScalar<int>(sql, favoriteData);
             favoriteData.Id = id;
             return favoriteData;
+        }
+
+        internal Favorite GetById(int id)
+        {
+            string sql = @"
+            SELECT 
+                f.*
+            FROM favorites f
+            
+            WHERE f.id = @id;
+            ";
+            return _db.Query<Favorite>(sql
+           , new { id }).FirstOrDefault();
+        }
+
+        internal object Remove(int id)
+        {
+            string sql = @"
+            DELETE FROM favorites WHERE id = @id LIMIT 1;
+            ";
+            int rowsAffected = _db.Execute(sql, new { id });
+            if (rowsAffected > 0)
+            {
+                return "delorted";
+            }
+            throw new Exception("could not delete");
         }
     }
 }
