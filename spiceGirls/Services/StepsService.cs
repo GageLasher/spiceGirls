@@ -1,3 +1,4 @@
+using System;
 using spiceGirls.Models;
 using spiceGirls.Repositories;
 
@@ -36,6 +37,17 @@ namespace spiceGirls.Services
                 _stepsRepo.Update(original);
             }
             return original;
+        }
+
+        internal object Remove(int id, Account userInfo)
+        {
+            Step step = _stepsRepo.GetById(id);
+            Recipe recipe = _recipesRepo.GetById(step.RecipeId);
+            if (recipe.CreatorId != userInfo.Id)
+            {
+                throw new Exception("you can't do that nice try.");
+            }
+            return _stepsRepo.Remove(id);
         }
     }
 }

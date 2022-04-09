@@ -1,3 +1,4 @@
+using System;
 using System.Data;
 using System.Linq;
 using Dapper;
@@ -53,6 +54,19 @@ namespace spiceGirls.Repositories
             ";
             _db.Execute(sql, original);
 
+        }
+
+        internal object Remove(int id)
+        {
+            string sql = @"
+            DELETE FROM steps WHERE id = @id LIMIT 1;
+            ";
+            int rowsAffected = _db.Execute(sql, new { id });
+            if (rowsAffected > 0)
+            {
+                return "delorted";
+            }
+            throw new Exception("could not delete");
         }
     }
 }
