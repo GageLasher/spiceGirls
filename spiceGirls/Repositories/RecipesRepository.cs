@@ -47,6 +47,28 @@ namespace spiceGirls.Repositories
             throw new Exception("could not delete");
         }
 
+        internal List<RecipeFavoriteView> GetRecipesByAccountId(string id)
+        {
+            string sql = @"
+          SELECT
+            a.*,
+            f.*,
+            r.*
+          FROM favorites f
+          JOIN recipes r ON f.recipeId = r.id
+          JOIN accounts a ON r.creatorId = a.id
+          WHERE f.accountId = @id;
+      ";
+            List<RecipeFavoriteView> recipes = _db.Query<Account, Recipe, RecipeFavoriteView, RecipeFavoriteView>(sql, (a, f, r) =>
+            {
+                r.Creator = a;
+                r.FavoriteId = f.Id;
+
+
+                return r;
+            }, new { id }).ToList<RecipeFavoriteView>();
+            return recipes;
+        }
 
         internal List<Recipe> GetAll()
         {

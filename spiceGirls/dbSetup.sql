@@ -6,6 +6,16 @@ CREATE TABLE IF NOT EXISTS accounts(
   email varchar(255) COMMENT 'User Email',
   picture varchar(255) COMMENT 'User Picture'
 ) default charset utf8 COMMENT '';
+CREATE TABLE IF NOT EXISTS favorites(
+  id INT NOT NULL primary key AUTO_INCREMENT,
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
+  updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Last Update',
+  accountId varchar(255) NOT NULL,
+  recipeId INT NOT NULL,
+  FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
+  FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
+) default charset utf8 COMMENT '';
+DROP TABLE favorites;
 CREATE TABLE IF NOT EXISTS recipes(
   id INT NOT NULL primary key AUTO_INCREMENT,
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',

@@ -10,4 +10,9 @@ namespace spiceGirls.Models
         public string Picture { get; set; }
         public Account? Creator { get; set; }
     }
+    public class RecipeFavoriteView : Recipe
+    {
+        public int FavoriteId { get; set; }
+
+    }
 }

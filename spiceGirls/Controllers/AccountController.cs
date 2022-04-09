@@ -1,11 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using spiceGirls.Models;
 using spiceGirls.Services;
 using CodeWorks.Auth0Provider;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace spiceGirls.Controllers
 {
@@ -14,10 +14,12 @@ namespace spiceGirls.Controllers
     public class AccountController : ControllerBase
     {
         private readonly AccountService _accountService;
+        private readonly RecipesService _rs;
 
-        public AccountController(AccountService accountService)
+        public AccountController(AccountService accountService, RecipesService rs)
         {
             _accountService = accountService;
+            _rs = rs;
         }
 
         [HttpGet]
@@ -30,6 +32,21 @@ namespace spiceGirls.Controllers
                 return Ok(_accountService.GetOrCreateProfile(userInfo));
             }
             catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpGet("favorites")]
+        [Authorize]
+        public async Task<ActionResult<List<RecipeFavoriteView>>> GetMyFavorites()
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                List<RecipeFavoriteView> favorites = _rs.GetFavoritesByAccountId(userInfo.Id);
+                return Ok(favorites);
+            }
+            catch (System.Exception e)
             {
                 return BadRequest(e.Message);
             }

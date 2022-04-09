@@ -35,6 +35,10 @@ namespace spiceGirls.Services
             return _recipeRepo.Remove(id);
         }
 
+        internal List<RecipeFavoriteView> GetFavoritesByAccountId(string id)
+        {
+            return _recipeRepo.GetRecipesByAccountId(id);
 
+        }
     }
 }
