@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using spiceGirls.Models;
 using spiceGirls.Repositories;
 
@@ -48,6 +49,11 @@ namespace spiceGirls.Services
                 throw new Exception("you can't do that nice try.");
             }
             return _stepsRepo.Remove(id);
+        }
+
+        internal List<Step> GetAll(int id)
+        {
+            return _stepsRepo.GetAll(id);
         }
     }
 }

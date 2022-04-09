@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper;
@@ -67,6 +68,18 @@ namespace spiceGirls.Repositories
                 return "delorted";
             }
             throw new Exception("could not delete");
+        }
+
+        internal List<Step> GetAll(int id)
+        {
+            string sql = @"
+            SELECT
+            s.*
+            FROM steps s
+            WHERE s.recipeId = @id;
+            ";
+            List<Step> steps = _db.Query<Step>(sql, new { id }).ToList();
+            return steps;
         }
     }
 }
