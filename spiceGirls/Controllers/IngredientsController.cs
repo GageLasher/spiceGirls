@@ -34,5 +34,39 @@ namespace spiceGirls.Controllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpPut("{id}")]
+        [Authorize]
+        public async Task<ActionResult<Ingredient>> Update([FromBody] Ingredient ingredientUpdate, int id)
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                ingredientUpdate.Id = id;
+                Ingredient ingredient = _is.Update(ingredientUpdate, userInfo);
+                return Ok(ingredientUpdate);
+            }
+            catch (System.Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<ActionResult<string>> Remove(int id)
+        {
+            try
+            {
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+
+                return Ok(_is.Remove(id, userInfo));
+            }
+            catch (System.Exception e)
+            {
+
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }
