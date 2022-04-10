@@ -16,20 +16,22 @@
     >
       <span class="navbar-toggler-icon" />
     </button>
+    <button
+      class="btn btn-success-outline text-light"
+      data-bs-toggle="modal"
+      data-bs-target="#create-recipe"
+    >
+      Create Recipe
+    </button>
     <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto">
-        <li>
-          <router-link
-            :to="{ name: 'About' }"
-            class="btn text-success lighten-30 selectable text-uppercase"
-          >
-            About
-          </router-link>
-        </li>
-      </ul>
+      <ul class="navbar-nav me-auto"></ul>
       <!-- LOGIN COMPONENT HERE -->
       <Login />
     </div>
+    <Modal id="create-recipe">
+      <template #title> Add Recipe</template>
+      <template #body><CreateRecipe /> </template>
+    </Modal>
   </nav>
 </template>
 

@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS favorites(
   FOREIGN KEY (accountId) REFERENCES accounts(id) ON DELETE CASCADE,
   FOREIGN KEY (recipeId) REFERENCES recipes(id) ON DELETE CASCADE
 ) default charset utf8 COMMENT '';
-DROP TABLE favorites;
+DROP TABLE recipes;
 CREATE TABLE IF NOT EXISTS recipes(
   id INT NOT NULL primary key AUTO_INCREMENT,
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT 'Time Created',
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS recipes(
   subTitle varchar(255),
   category VARCHAR(255),
   FOREIGN KEY (creatorId) REFERENCES accounts(id),
-  picture varchar(255)
+  picture varchar(500)
 ) default charset utf8 COMMENT '';
 CREATE TABLE IF NOT EXISTS ingredients(
   id INT NOT NULL primary key AUTO_INCREMENT,
